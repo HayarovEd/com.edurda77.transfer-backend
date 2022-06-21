@@ -1,0 +1,1 @@
+rootProject.name = "com.edurda77.transfer-backend"
