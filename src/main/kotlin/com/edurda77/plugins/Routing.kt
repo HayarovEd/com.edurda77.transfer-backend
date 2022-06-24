@@ -11,7 +11,7 @@ fun Application.configureRouting() {
 
     routing {
         get("/") {
-            call.respond("Hallo!")
+            call.respond("Маша, пиши, мать твою, диплом!")
         }
     }
 }

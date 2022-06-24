@@ -11,7 +11,8 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureLoginRouting() {
-    userList.add(DbModel("Test", "Test", 0, 5))
+    userList.add(DbModel("Юлия", "Test", 0, 5))
+
     routing {
         post("/login") {
             val receive = call.receive<InputLoginPassword>()
