@@ -8,20 +8,37 @@ class FakeRepository {
     fun updateData(dbModel: DbModel, currentData: Int) {
         userList.remove(dbModel)
         userList.add(
-            DbModel(dbModel.login, dbModel.password, dbModel.currentData, currentData)
+            DbModel(
+                login = dbModel.login,
+                password = dbModel.password,
+                lastData = dbModel.currentData,
+                currentData = currentData
+            )
         )
     }
-    fun removeUser (dbModel: DbModel) {
+
+    fun removeUser(dbModel: DbModel) {
         userList.remove(dbModel)
     }
-    fun addUser (name:String, password: String){
+
+    fun addUser(name: String, password: String) {
         userList.add(
-            DbModel(name, password, 0, 0)
+            DbModel(
+                login = name,
+                password = password,
+                lastData = 0,
+                currentData = 0)
         )
     }
-    fun changePassword (dbModel: DbModel, password: String) {
+
+    fun changePassword(dbModel: DbModel, password: String) {
         userList.remove(dbModel)
-        DbModel(dbModel.login, password, dbModel.lastData, dbModel.currentData)
+        userList.add(DbModel(
+            login = dbModel.login,
+            password = password,
+            lastData = dbModel.lastData,
+            currentData = dbModel.currentData)
+        )
     }
-    suspend fun getUsers ()=userList
+    //fun getUsers ()=userList
 }

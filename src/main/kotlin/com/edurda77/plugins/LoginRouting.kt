@@ -12,6 +12,8 @@ import io.ktor.server.routing.*
 fun Application.configureLoginRouting() {
     val repository = FakeRepository()
     repository.userList.add(DbModel("Юлия", "Test", 0, 5))
+    repository.userList.add(DbModel("Эдуард", "Test", 1, 5))
+    repository.userList.add(DbModel("Администратор", "Test", 0, 0))
 
     routing {
         post("/login") {
@@ -21,31 +23,25 @@ fun Application.configureLoginRouting() {
                 call.respond(HttpStatusCode.BadRequest, "Пользователь не найден")
             } else
                 if (first.password == receive.password) {
-                    call.respond(
-                        DbModel(
-                            login = first.login,
-                            password = first.password,
-                            lastData = first.lastData,
-                            currentData = first.currentData
-                        )
-                    )
+                    when (first.login) {
+                        "Администратор" -> {
+                            call.respond(listOf(repository.userList))
+                        }
+                        else -> {
+                            call.respond(
+                                DbModel(
+                                    login = first.login,
+                                    password = first.password,
+                                    lastData = first.lastData,
+                                    currentData = first.currentData
+                                )
+                            )}
+                    }
+
                 } else {
                     call.respond(HttpStatusCode.BadRequest, "пароль неверный")
                 }
-            /*if (MemoryCache.userList.map { it.login }.contains(receive.inputLogin)){
-                if (MemoryCache.userList.map { it.password }.contains(receive.inputPassword)) {
 
-                    println("Залогинились")
-                    call.respond (DbModel())
-                } else {
-                    println("пароль неверный")
-                    call.respond (HttpStatusCode.Conflict, "пароль неверный")
-                }
-            } else {
-                println("Такого пользователя нет")
-                call.respond (HttpStatusCode.Conflict, "Такого пользователя нет")
-            }*/
-            //call.respond(HttpStatusCode.BadRequest)
         }
     }
 }
