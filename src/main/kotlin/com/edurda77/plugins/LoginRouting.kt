@@ -1,7 +1,6 @@
 package com.edurda77.plugins
 
-import com.edurda77.cache.MemoryCache
-import com.edurda77.cache.MemoryCache.userList
+import com.edurda77.cache.FakeRepository
 import com.edurda77.model.DbModel
 import com.edurda77.model.InputLoginPassword
 import io.ktor.http.*
@@ -11,16 +10,17 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureLoginRouting() {
-    userList.add(DbModel("Юлия", "Test", 0, 5))
+    val repository = FakeRepository()
+    repository.userList.add(DbModel("Юлия", "Test", 0, 5))
 
     routing {
         post("/login") {
             val receive = call.receive<InputLoginPassword>()
-            val first = MemoryCache.userList.firstOrNull { it.login == receive.inputLogin }
+            val first = repository.userList.firstOrNull { it.login == receive.login }
             if (first == null) {
                 call.respond(HttpStatusCode.BadRequest, "Пользователь не найден")
             } else
-                if (first.password == receive.inputPassword) {
+                if (first.password == receive.password) {
                     call.respond(
                         DbModel(
                             login = first.login,
