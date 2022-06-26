@@ -1,6 +1,7 @@
 package com.edurda77.plugins
 
 import com.edurda77.cache.FakeRepository
+import com.edurda77.controllers.LoginController
 import com.edurda77.model.DbModel
 import com.edurda77.model.InputLoginPassword
 import io.ktor.http.*
@@ -17,31 +18,8 @@ fun Application.configureLoginRouting() {
 
     routing {
         post("/login") {
-            val receive = call.receive<InputLoginPassword>()
-            val first = repository.userList.firstOrNull { it.login == receive.login }
-            if (first == null) {
-                call.respond(HttpStatusCode.BadRequest, "Пользователь не найден")
-            } else
-                if (first.password == receive.password) {
-                    when (first.login) {
-                        "Администратор" -> {
-                            call.respond(listOf(repository.userList))
-                        }
-                        else -> {
-                            call.respond(
-                                DbModel(
-                                    login = first.login,
-                                    password = first.password,
-                                    lastData = first.lastData,
-                                    currentData = first.currentData
-                                )
-                            )}
-                    }
-
-                } else {
-                    call.respond(HttpStatusCode.BadRequest, "пароль неверный")
-                }
-
+            val loginController = LoginController(call)
+            loginController.performLogin()
         }
     }
 }
