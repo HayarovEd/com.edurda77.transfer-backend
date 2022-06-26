@@ -12,13 +12,14 @@ class LoginController(private val call: ApplicationCall) {
     suspend fun performLogin() {
         val receive = call.receive<InputLoginPassword>()
         val userDb = UserDb.fetchUser(receive.login)
+        val usersDb = UserDb.fetchUsers()
         if (userDb == null) {
             call.respond(HttpStatusCode.BadRequest, "Пользователь не найден")
         } else
             if (userDb.password == receive.password) {
                 when (userDb.login) {
                     "Администратор" -> {
-                        call.respond(listOf())
+                        call.respond(listOf(usersDb))
                     }
                     else -> {
                         call.respond(
