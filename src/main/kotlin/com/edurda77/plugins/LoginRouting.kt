@@ -11,10 +11,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureLoginRouting() {
-    val repository = FakeRepository()
-    repository.userList.add(DbModel("Юлия", "Test", 0, 5))
-    repository.userList.add(DbModel("Эдуард", "Test", 1, 5))
-    repository.userList.add(DbModel("Администратор", "Test", 0, 0))
+
 
     routing {
         post("/login") {

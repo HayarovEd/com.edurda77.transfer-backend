@@ -9,15 +9,17 @@ object UserDb : Table("users") {
     private val password = varchar("password", 20)
     private val lastData = integer("lastdata")
     private val currentData = integer("currentdata")
-
+//ver
     fun updateData(dbModel: DbModel, currentData: Int) {
         transaction {
-            UserDb.update {
-                it[login] = dbModel.login
-                it[password] = dbModel.password
-                it[lastData] = dbModel.currentData
-                it[UserDb.currentData] = currentData
-            }
+            removeUser(dbModel)
+            val tempUser = DbModel(
+                login = dbModel.login,
+                password = dbModel.password,
+                lastData = dbModel.currentData,
+                currentData = currentData
+            )
+            addUser(tempUser)
         }
     }
 
@@ -28,7 +30,7 @@ object UserDb : Table("users") {
             }
         }
     }
-
+//ver
     fun addUser(dbModel: DbModel) {
         transaction {
             UserDb.insert {
@@ -39,18 +41,20 @@ object UserDb : Table("users") {
             }
         }
     }
-
-    fun changePassword(dbModel: DbModel, password: String) {
+// ver
+    fun changePassword(dbModel: DbModel, passwordUser: String) {
         transaction {
-            UserDb.insert {
-                it[login] = dbModel.login
-                it[UserDb.password] = password
-                it[lastData] = dbModel.lastData
-                it[currentData] = dbModel.currentData
-            }
+            removeUser(dbModel)
+            val tempUser = DbModel(
+                login = dbModel.login,
+                password = passwordUser,
+                lastData = dbModel.lastData,
+                currentData = dbModel.currentData
+            )
+            addUser(tempUser)
         }
     }
-
+//ver
     fun fetchUser(login: String): DbModel? {
         return try {
             transaction {
@@ -66,8 +70,8 @@ object UserDb : Table("users") {
             null
         }
     }
-
-    fun fetchUsers(): List<DbModel>? {
+// ver
+    fun fetchUsers(): List<DbModel> {
         val users: MutableList<DbModel> = mutableListOf()
         transaction {
             val usersDb = UserDb.selectAll()
