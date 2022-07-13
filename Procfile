@@ -1,0 +1,1 @@
+web: ./build/install/com.edurda77.transfer-backend/bin/com.edurda77.transfer-backend
