@@ -11,7 +11,7 @@ fun Application.configureRouting() {
 
     routing {
         get("/") {
-            call.respond("Маша, пиши, мать твою, диплом!")
+            call.respond("Сервер Хаярова Э.В. Передача показаний")
         }
     }
 }
