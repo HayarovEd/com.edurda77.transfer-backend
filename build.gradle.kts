@@ -32,10 +32,14 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logback_version")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.7.0")
-
+    implementation("io.ktor:ktor-server-netty:$ktor_version")
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
 
     implementation("org.postgresql:postgresql:42.2.2")
+    implementation("com.zaxxer:HikariCP:5.0.1")
+}
+tasks.create("stage") {
+    dependsOn("installDist")
 }
