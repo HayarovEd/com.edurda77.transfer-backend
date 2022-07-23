@@ -22,5 +22,6 @@ fun main() {
         configureAddUserRouting()
         configureChangePasswordUserRouting()
         configureSerialization()
+        configureCorrectDataRouting()
     }.start(wait = true)
 }

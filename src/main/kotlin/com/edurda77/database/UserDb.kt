@@ -89,5 +89,14 @@ object UserDb : Table("users") {
         }
         return users
     }
+    fun correctData(dbModel: DbModel, newLastData: Int, newCurrentData: Int) {
+        removeUser(dbModel)
+        addUser(DbModel(
+            login = dbModel.login,
+            password = dbModel.password,
+            lastData = newLastData,
+            currentData = newCurrentData
+        ))
+    }
 
 }
