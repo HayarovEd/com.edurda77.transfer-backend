@@ -8,5 +8,6 @@ data class DbModel(
     val login : String,
     val password: String,
     val lastData: Int,
-    val currentData: Int
+    val currentData: Int,
+    val updateDate: String
 )
