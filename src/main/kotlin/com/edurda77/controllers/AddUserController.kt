@@ -1,6 +1,7 @@
 package com.edurda77.controllers
 
 import com.edurda77.database.UserDb
+import com.edurda77.database.UserDb.dateToString
 import com.edurda77.model.AddUserModel
 import com.edurda77.model.DbModel
 import io.ktor.http.*
@@ -22,7 +23,8 @@ class AddUserController(private val call: ApplicationCall) {
                                 login = receive.user,
                                 password = receive.userPassword,
                                 lastData = 0,
-                                currentData = 0
+                                currentData = 0,
+                                updateDate = dateToString()
                             )
                         )
                         call.respond(HttpStatusCode.OK, "Пользователь ${receive.user} добавлен")

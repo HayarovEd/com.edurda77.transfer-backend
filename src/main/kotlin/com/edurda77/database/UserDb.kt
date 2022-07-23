@@ -116,7 +116,7 @@ object UserDb : Table("users") {
         )
     }
 
-    private fun dateToString(): String {
+    fun dateToString(): String {
         val date = Date()
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return sdf.format(date)
