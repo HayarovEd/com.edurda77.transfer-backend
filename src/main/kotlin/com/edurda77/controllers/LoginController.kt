@@ -27,7 +27,8 @@ class LoginController(private val call: ApplicationCall) {
                                 login = userDb.login,
                                 password = userDb.password,
                                 lastData = userDb.lastData,
-                                currentData = userDb.currentData
+                                currentData = userDb.currentData,
+                            updateDate = userDb.updateDate
                             )
                         )}
                 }
